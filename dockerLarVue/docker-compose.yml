@@ -1,0 +1,104 @@
+services:
+  nginx:
+    container_name: nginxLarVue
+    platform: linux/x86_64
+    image: nginx:alpine
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../laravel:/var/www/html
+      - ./nginx/:/etc/nginx/conf.d/
+    networks:
+      - laravel-vue-network
+  laravel:
+    container_name: laravelVue
+    working_dir: /var/www/html
+    build:
+      args:
+        USER: www-data
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ../laravel:/var/www/html
+      - ./laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - laravel-vue-network
+  database:
+    container_name: databaseLarVue
+    image: mysql:latest
+    restart: unless-stopped
+    command: --init-file /data/application/init.sql
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123test321
+      MYSQL_ROOT_PASSWORD: 123test321
+    volumes:
+      - ./mysql/init_db.sql:/data/application/init.sql
+    networks:
+      - laravel-vue-network
+  phpmyadmin:
+    container_name: PMALarVue
+    image: phpmyadmin
+    ports:
+      - "1500:80"
+    environment:
+      - PMA_HOSTS=database
+    networks:
+      - laravel-vue-network
+    depends_on:
+      - database
+  maildev:
+    container_name: maildevLarVue
+    image: maildev/maildev
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+      - MAILDEV_WEB_PORT=1080
+      - MAILDEV_SMTP_PORT=1025
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+    networks:
+      - laravel-vue-network
+  redis:
+    container_name: redisLarVue
+    image: redis:7.2-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - laravel-vue-network
+  node:
+    container_name: nodeLarVue
+    build:
+      context: ../
+      dockerfile: dockerLarVue/Dockerfile.node
+    working_dir: /var/www/node
+    volumes:
+      - ../node:/var/www/node
+      - /var/www/node/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - laravel-vue-network
+networks:
+  laravel-vue-network:
+    driver: bridge
+
+volumes:
+  redis-data:

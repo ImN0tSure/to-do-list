@@ -1,0 +1,369 @@
+.content {
+    flex-grow: 1;
+    background: #ffd0e0;
+    border-radius: 40px;
+    padding: 40px 50px;
+    box-shadow: 0 6px 20px rgba(240, 98, 146, 0.35);
+    display: flex;
+    flex-direction: column;
+    width: 82%;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.task-list {
+    margin-bottom: 20px;
+}
+
+.task-header {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    background: #f06292;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(240, 98, 146, 0.2);
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #fff;
+    transition: background 0.3s ease;
+}
+
+.task-header .toggle-arrow {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.tasks {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    text-align: center;
+}
+
+.tabs-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #d83979;
+}
+
+.tabs {
+    display: flex;
+}
+
+.tabs-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background-color: #f06292;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 8px 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Comic Neue', cursive, Arial, sans-serif;
+    box-shadow: 0 3px 6px rgba(216, 57, 121, 0.6);
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #d83979;
+}
+
+.btn.delete-list {
+    max-width: 53%;
+    background: #d13737;
+    align-self: flex-end;
+    margin-top: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #9e1b56;
+    background: #ffd0e0;
+    border: 1px solid #d83979;
+    border-radius: 20px 20px 0 0;
+    transition: background-color 0.3s ease;
+}
+
+.tab.active {
+    background: #f06292;
+    color: white;
+}
+
+.project-participants-wrap {
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    gap: 10px;
+}
+
+.participant {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 260px;
+}
+
+.participant:hover {
+    cursor: pointer;
+}
+
+.participant-photo {
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #f06292;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.participant-photo > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.participant-info {
+    position: relative;
+}
+
+.participant-info div {
+    color: #7a2350;
+    max-width: 200px;
+}
+
+.participant-status span{
+    color: rgba(122 35 80 / 65%);
+}
+
+.participant-info strong {
+    font-size: 1.1em;
+}
+
+/* Кнопки добавления, исключения и выхода из проекта. */
+
+.additional-btn, .exclude-btn {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.exclude-btn {
+    margin-top: 20px;
+}
+
+.exclude {
+    background-color: #dd1818;
+}
+
+.exclude:hover {
+    background-color: #ba1919;
+}
+
+.deleted:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background: #3d3a3b;
+    border-radius: 4px;
+}
+
+/* Скрытый контент вкладок */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Модалка (по умолчанию скрыта) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff0f6;
+    padding: 25px 30px;
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(240, 98, 146, 0.4);
+    width: 350px;
+    max-width: 90%;
+    max-height: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content h2 {
+    margin: 0 0 10px;
+    color: #9e1b56;
+    text-align: center;
+}
+
+.modal-content input,
+.modal-content textarea {
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid #d83979;
+    font-family: 'Comic Neue', cursive, Arial, sans-serif;
+    resize: none;
+}
+
+.modal-content textarea {
+    min-height: 70px;
+}
+
+.error-name {
+    display: none;
+    font-size: 13px;
+    color: #e52f2f;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Кнопка редактирования */
+.edit-btn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(-100%);
+    background: #fff;
+    color: #9e1b56;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px 0;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Comic Neue', cursive, Arial, sans-serif;
+    box-shadow: 0 3px 6px rgba(216, 57, 121, 0.6);
+    transition: top 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: #d83979;
+    color: #fff;
+}
+
+/* Выезд кнопки */
+.task-header:hover .edit-btn {
+    top: 35px;
+}
+
+/* Новое описание блока с задачами */
+.task-row {
+    display: flex;
+    border-radius: 25px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 1px 1px 4px #d83979;
+    font-weight: 600;
+    align-items: center;
+}
+
+.task-name {
+    flex-basis: 55%;
+    text-align: left;
+}
+
+.task-status, .task-priority, .task-left {
+    flex-basis: 19%;
+}
+
+.task-name, .task-left {
+    color: #7a2350;
+}
+
+.task-status.in_progress {
+    color: #d1a12b;
+}
+
+.task-status.complete {
+    color: #00796b;
+}
+
+.task-priority {
+    font-size: 1.1em;
+}
+
+.task-priority.high {
+    color: red;
+}
+
+.task-priority.middle {
+    color: #5ea83a;
+}
+
+.task-priority.low {
+    color: #163697;
+}
+
+.row-header {
+    background: #f06292;
+    font-size: 1.2em;
+}
+
+.row-header > div {
+    color: #fff !important;
+}
+
+.row-elem {
+    background: #fce7f0;
+}
+
+/*Исключение из проекта */
+.participants-list .participant {
+    margin-bottom: 20px;
+}
+
+.participant-name {
+    position: relative;
+}
+
+.excluded:before {
+    content: "";
+    border-bottom: 3px solid #7a2350;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+}
+
+.participants-list {
+    overflow-y: auto;
+    max-height: 350px;
+}
+
+
