@@ -5,7 +5,7 @@ WORKDIR /var/www/node
 # Обновляем npm и копируем скрипт внутрь контейнера
 RUN npm install -g npm@latest
 
-COPY dockerLarVue/node-start.sh /usr/local/bin/node-start.sh
+COPY tododocker/node-start.sh /usr/local/bin/node-start.sh
 RUN chmod +x /usr/local/bin/node-start.sh
 
 # Используем наш entrypoint как команду запуска

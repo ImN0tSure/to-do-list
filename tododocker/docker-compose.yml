@@ -1,6 +1,6 @@
 services:
   nginx:
-    container_name: nginxLarVue
+    container_name: todoNginx
     platform: linux/x86_64
     image: nginx:alpine
     restart: unless-stopped
@@ -12,9 +12,9 @@ services:
       - ../laravel:/var/www/html
       - ./nginx/:/etc/nginx/conf.d/
     networks:
-      - laravel-vue-network
+      - to-do-network
   laravel:
-    container_name: laravelVue
+    container_name: todoLar
     working_dir: /var/www/html
     build:
       args:
@@ -25,9 +25,9 @@ services:
       - ../laravel:/var/www/html
       - ./laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
     networks:
-      - laravel-vue-network
+      - to-do-network
   database:
-    container_name: databaseLarVue
+    container_name: todoDB
     image: mysql:latest
     restart: unless-stopped
     command: --init-file /data/application/init.sql
@@ -42,20 +42,20 @@ services:
     volumes:
       - ./mysql/init_db.sql:/data/application/init.sql
     networks:
-      - laravel-vue-network
+      - to-do-network
   phpmyadmin:
-    container_name: PMALarVue
+    container_name: todoPMA
     image: phpmyadmin
     ports:
       - "1500:80"
     environment:
       - PMA_HOSTS=database
     networks:
-      - laravel-vue-network
+      - to-do-network
     depends_on:
       - database
   maildev:
-    container_name: maildevLarVue
+    container_name: todoMaildev
     image: maildev/maildev
     restart: unless-stopped
     environment:
@@ -70,9 +70,9 @@ services:
       options:
         max-size: "1m"
     networks:
-      - laravel-vue-network
+      - to-do-network
   redis:
-    container_name: redisLarVue
+    container_name: todoRedis
     image: redis:7.2-alpine
     restart: unless-stopped
     ports:
@@ -80,12 +80,12 @@ services:
     volumes:
       - redis-data:/data
     networks:
-      - laravel-vue-network
+      - to-do-network
   node:
-    container_name: nodeLarVue
+    container_name: todoNode
     build:
       context: ../
-      dockerfile: dockerLarVue/Dockerfile.node
+      dockerfile: tododocker/Dockerfile.node
     working_dir: /var/www/node
     volumes:
       - ../node:/var/www/node
@@ -95,9 +95,9 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     networks:
-      - laravel-vue-network
+      - to-do-network
 networks:
-  laravel-vue-network:
+  to-do-network:
     driver: bridge
 
 volumes:
