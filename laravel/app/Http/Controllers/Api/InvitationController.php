@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateInvitationRequest;
 use App\Http\Requests\ResponseInvitationRequest;
-use App\Models\Invitation;
 use App\Models\Notification;
-use App\Models\ProjectParticipant;
 use App\Services\GetProjectId;
 use App\Services\Invitations\InvitationCreateService;
 use App\Services\Invitations\InvitationUpdateService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class InvitationController extends Controller
@@ -35,9 +32,8 @@ class InvitationController extends Controller
         ResponseInvitationRequest $request,
         InvitationUpdateService $invitation_service
     ): \Illuminate\Http\JsonResponse {
-
         $notifiable_id = $request->notifiable_id;
-        $is_accepted = (bool) $request->is_accepted;
+        $is_accepted = (bool)$request->is_accepted;
 
         $response = $invitation_service->execute($notifiable_id, $is_accepted);
 

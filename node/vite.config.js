@@ -10,7 +10,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://laravelVue:80',
+        target: 'http://todoLar:80',
         changeOrigin: true,
         secure: false,
       },

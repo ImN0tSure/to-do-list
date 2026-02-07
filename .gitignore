@@ -16,11 +16,12 @@ laravel/auth.json
 laravel/npm-debug.log
 laravel/yarn-error.log
 laravel/.fleet
-laravel/.idea
-laravel/.vscode
+laravel/.idea/
+laravel/.vscode/
 laravel/note.txt
-laravel/public/img
+laravel/public/img/
 laravel/hello
+.idea/
 
 #vue
 
