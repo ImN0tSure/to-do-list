@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Gate;
 
 class InvitationController extends Controller
 {
+    private static string $message_success = 'Уведомление с приглашением отправлено пользователю.';
+    private static string $message_update_prefix = 'Приглашение ';
+
     public function create(
         CreateInvitationRequest $request,
         InvitationCreateService $invitation_service
@@ -24,7 +27,7 @@ class InvitationController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Уведомление с приглашением отправлено пользователю.'
+            'message' => static::$message_success,
         ]);
     }
 
@@ -41,7 +44,7 @@ class InvitationController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Приглашение ' . $response
+            'message' => static::$message_update_prefix . $response
         ]);
     }
 

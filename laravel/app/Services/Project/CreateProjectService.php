@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class CreateProjectService
 {
+    private int $creator_default_status = 1;
+    private string $creator_default_role = 'creator';
     public function execute(array $data)
     {
         return DB::transaction(function () use ($data) {
@@ -21,8 +23,8 @@ class CreateProjectService
             $participant = [
                 'user_id' => Auth::id(),
                 'project_id' => $project->id,
-                'status' => 1,
-                'role' => 'creator'
+                'status' => $this->creator_default_status,
+                'role' => $this->creator_default_role
             ];
 
             ProjectParticipant::create($participant);

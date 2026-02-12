@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectPermissionResolver
 {
-    public function check(User $user, string $permission, $project_id)
+    private string $config_file_name = 'project_permissions';
+    private string $highest_role = 'creator';
+    public function check(User $user, string $permission, $project_id): bool
     {
         $project_participant = ProjectParticipant::where([
             'project_id' => $project_id,
@@ -17,9 +19,9 @@ class ProjectPermissionResolver
 
         $role = $project_participant->role;
 
-        $permissions = config('project_permissions');
+        $permissions = config($this->config_file_name);
 
-        if ($role === 'creator') {
+        if ($role === $this->highest_role) {
             return true;
         } elseif (in_array($permission, $permissions[$role])) {
             return true;
