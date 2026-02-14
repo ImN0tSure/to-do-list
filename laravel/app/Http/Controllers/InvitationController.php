@@ -31,11 +31,8 @@ class InvitationController extends Controller
     public function accept(ResponseInvitationRequest $request): \Illuminate\Http\JsonResponse
     {
         $validate_data = $request->validated();
-
         $notifiable_id = $validate_data['notifiable_id'];
-
         $this->updateInvitation($notifiable_id, true);
-
         $project_id = Invitation::where('id', $notifiable_id)->first()->project_id;
 
         ProjectParticipant::create([
@@ -68,7 +65,7 @@ class InvitationController extends Controller
         ]);
     }
 
-    protected function updateInvitation($notifiable_id, bool $is_accepted): void
+    protected function updateInvitation(string $notifiable_id, bool $is_accepted): void
     {
         // Используем сохранение через модель, чтобы отработал InvitationObserver.
         // Кто же знал, что Invitation::where() это прямое обращение к БД, а оно не триггерит observer updated?
@@ -77,7 +74,7 @@ class InvitationController extends Controller
         $invitation->save();
     }
 
-    protected function deleteOriginalInvitationNotification($notifiable_id): void
+    protected function deleteOriginalInvitationNotification(string $notifiable_id): void
     {
         Notification::where([
             'notifiable_id' => $notifiable_id,

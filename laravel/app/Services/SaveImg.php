@@ -2,12 +2,16 @@
 
 namespace App\Services;
 
+use Illuminate\Http\UploadedFile;
+
 class SaveImg
 {
-    public static function userAvatar($file): string {
-        $file_name = 'avatar_' . time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('img/avatars/'), $file_name);
+    public static string $path = '/img/avatars/';
+    public static string $prefix = 'avatar_';
+    public static function userAvatar(UploadedFile $file): string {
+        $file_name = static::$prefix . time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path(static::$path), $file_name);
 
-        return '/img/avatars/' . $file_name;
+        return static::$path . $file_name;
     }
 }

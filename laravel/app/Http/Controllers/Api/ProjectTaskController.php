@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Gate;
 
 class ProjectTaskController extends Controller
 {
-    public function index(Request $request, $project_url): \Illuminate\Http\JsonResponse
+    public function index(Request $request, string $project_url): \Illuminate\Http\JsonResponse
     {
         $tasks = Project::where('url', $project_url)->first()->tasks()->get();
 
@@ -47,7 +47,7 @@ class ProjectTaskController extends Controller
     /* Вынести одинаковые действия в контроллерах в сервисы */
     public function store(
         StoreTaskRequest $request,
-        $project_url,
+        string $project_url,
         CreateTaskService $task_service
     ): \Illuminate\Http\JsonResponse {
         $project_id = GetProjectId::byUrl($project_url);
@@ -61,7 +61,7 @@ class ProjectTaskController extends Controller
         ]);
     }
 
-    public function show(string $project_url, $task_id): \Illuminate\Http\JsonResponse
+    public function show(string $project_url, int $task_id): \Illuminate\Http\JsonResponse
     {
         $task = Task::where('id', $task_id)
             ->whereHas('project', function ($query) use ($project_url) {

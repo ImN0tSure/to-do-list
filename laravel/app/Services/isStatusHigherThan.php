@@ -9,13 +9,13 @@ class isStatusHigherThan
         'curator' => 1,
         'executor' =>2
     ];
-    public static function executor(int|string $project_id): bool {
+    public static function executor(string $project_id): bool {
         $user_status = getParticipantStatus::inProject($project_id);
 
         return $user_status < self::$statuses['executor'];
     }
 
-    public static function curator(int|string $project_id): bool {
+    public static function curator(string $project_id): bool {
         $user_status = getParticipantStatus::inProject($project_id);
 
         return $user_status < self::$statuses['curator'];

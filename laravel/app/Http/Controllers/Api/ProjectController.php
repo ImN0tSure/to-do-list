@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
+    protected static string $created_success_message = 'Проект создан.';
+
     public function index(): \Illuminate\Http\JsonResponse
     {
         $user_id = Auth::id();
@@ -36,7 +38,7 @@ class ProjectController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Проект создан.'
+            'message' => static::$created_success_message
         ]);
     }
 }

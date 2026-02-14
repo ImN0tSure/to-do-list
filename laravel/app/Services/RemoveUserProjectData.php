@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class RemoveUserProjectData
 {
-    public static function remove($project_url, $user_id) {
-
+    public static function remove(string $project_url, string $user_id): bool|string
+    {
         $project = Project::where('url', $project_url)->first();
         $task_id = $project->tasks()
             ->where('executor_id', $user_id)

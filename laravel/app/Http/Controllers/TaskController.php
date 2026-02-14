@@ -156,7 +156,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $project_url, string|int $task_id, DeleteTaskService $task_service)
+    public function destroy(string $project_url, string $task_id, DeleteTaskService $task_service)
     {
         $project_id = GetProjectId::byUrl($project_url);
         Gate::authorize('task.delete', $project_id);

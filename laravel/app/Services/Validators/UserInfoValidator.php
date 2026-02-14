@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserInfoValidator
 {
-    public static function check($data)
+    public static function check($data): \Illuminate\Validation\Validator
     {
         return Validator::make($data, [
             'avatar_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|bail',

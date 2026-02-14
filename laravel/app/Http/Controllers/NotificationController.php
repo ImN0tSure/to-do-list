@@ -30,7 +30,7 @@ class NotificationController extends Controller
         return view('notification.index', $notifications);
     }
 
-    public function delete($id): \Illuminate\Http\JsonResponse
+    public function delete(int $id): \Illuminate\Http\JsonResponse
     {
         try {
             Notification::where('user_id', Auth::id())->findOrFail($id)->update([

@@ -23,7 +23,7 @@ class LogClear extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         file_put_contents(storage_path('logs/laravel.log'), '');
         $this->info('Logs have been cleared!');

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class DeleteTasklistService
 {
-    public function execute($tasklist_id)
+    public function execute(string $tasklist_id): mixed
     {
         return DB::transaction(function () use ($tasklist_id) {
             Tasklist::destroy($tasklist_id);

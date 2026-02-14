@@ -9,13 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 class InvitationUpdateService
 {
-    public function execute($notifiable_id, $is_accepted)
+    private string $reject_response_message = 'отклонил';
+    private string $accept_response_message = 'принял';
+    private string $default_user_status = '2';
+    private string $default_user_role = 'executor';
+
+    public function execute(string $notifiable_id, bool $is_accepted): string
     {
-        $response = 'отклонил';
+        $response = $this->reject_response_message;
 
         if($is_accepted){
             $this->accepted($notifiable_id);
-            $response = 'принял';
+            $response = $this->accept_response_message;
         }
 
         $invitation = Invitation::find($notifiable_id);
@@ -25,7 +30,7 @@ class InvitationUpdateService
         return $response;
     }
 
-    private function accepted($notifiable_id)
+    private function accepted(string $notifiable_id): void
     {
         $project_id = Invitation::where('id', $notifiable_id)->first()->project_id;
         $participant_service = new CreateProjectParticipantService();
@@ -33,8 +38,8 @@ class InvitationUpdateService
         $participant_service->execute(
             $project_id,
             Auth::id(),
-            '2',
-            'executor'
+            CreateProjectParticipantService::$default_user_status,
+            CreateProjectParticipantService::$default_user_role
         );
     }
 

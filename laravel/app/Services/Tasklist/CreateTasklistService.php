@@ -6,7 +6,7 @@ use App\Models\Tasklist;
 
 class CreateTasklistService
 {
-    public function execute($data, $project_id): Tasklist
+    public function execute(array $data, string $project_id): Tasklist
     {
         $data['project_id'] = $project_id;
 
