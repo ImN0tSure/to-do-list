@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveUserInfoRequest;
 use App\Models\UserInfo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserInfoController extends Controller
 {
-    public function show()
+    public function show(): \Illuminate\Http\JsonResponse
     {
         $user_id = Auth::id();
 
@@ -24,7 +23,7 @@ class UserInfoController extends Controller
         ]);
     }
 
-    public function update(SaveUserInfoRequest $request)
+    public function update(SaveUserInfoRequest $request): \Illuminate\Http\JsonResponse
     {
         $user_id = Auth::id();
         $validate_data = $request->validated();
@@ -55,7 +54,6 @@ class UserInfoController extends Controller
                 ]),
                 'message' => 'Профиль успешно обновлён.',
             ]);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,

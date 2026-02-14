@@ -12,7 +12,7 @@ class CreateProjectService
 {
     private int $creator_default_status = 1;
     private string $creator_default_role = 'creator';
-    public function execute(array $data)
+    public function execute(array $data): mixed
     {
         return DB::transaction(function () use ($data) {
             $data['url'] = GenerateProjectUrl::generate();
@@ -29,6 +29,5 @@ class CreateProjectService
 
             ProjectParticipant::create($participant);
         });
-
     }
 }

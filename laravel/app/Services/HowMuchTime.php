@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class HowMuchTime
 {
-    public static function expiresIn($end_date): string
+    public static function expiresIn(string $end_date): string
     {
         $now = Carbon::now();
         $end = Carbon::parse($end_date);
@@ -26,7 +26,7 @@ class HowMuchTime
         return $sign . $response;
     }
 
-    protected static function ruWordForm(int $num, $word = 'days'): string
+    protected static function ruWordForm(int $num, string $word = 'days'): string
     {
         $words = [
             'days' => [

@@ -13,8 +13,8 @@ class AuthController extends Controller
         return view('login.auth');
     }
 
-    public function authorizeUser(AuthorizeUserRequest $request)
-    {
+    public function authorizeUser(AuthorizeUserRequest $request
+    ): \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse {
         $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
@@ -29,7 +29,6 @@ class AuthController extends Controller
             } else {
                 return redirect()->intended('/cabinet');
             }
-
         }
 
         if ($request->expectsJson()) {
@@ -44,7 +43,7 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();

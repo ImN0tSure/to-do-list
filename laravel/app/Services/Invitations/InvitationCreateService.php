@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class InvitationCreateService
 {
-    public function execute($email, $project_id): Invitation {
+    public function execute(string $email, int $project_id): Invitation {
 
         $invitee_id = User::where('email', $email)->first()->id;
 

@@ -11,6 +11,7 @@ use App\Services\Tasklist\DeleteTasklistService;
 use App\Services\Tasklist\UpdateTasklistService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class TasklistController extends Controller
 {
@@ -30,7 +31,7 @@ class TasklistController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, $project_url)
+    public function create(Request $request, string $project_url): View
     {
         $data = [
             'project_url' => $project_url,
@@ -42,7 +43,7 @@ class TasklistController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTasklistRequest $request, $project_url, CreateTasklistService $tasklist_service)
+    public function store(StoreTasklistRequest $request, string $project_url, CreateTasklistService $tasklist_service)
     {
         $project_id = GetProjectId::byUrl($project_url);
         Gate::authorize('tasklist.create', [$project_id]);

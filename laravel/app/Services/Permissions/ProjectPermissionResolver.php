@@ -10,7 +10,7 @@ class ProjectPermissionResolver
 {
     private string $config_file_name = 'project_permissions';
     private string $highest_role = 'creator';
-    public function check(User $user, string $permission, $project_id): bool
+    public function check(User $user, string $permission, int $project_id): bool
     {
         $project_participant = ProjectParticipant::where([
             'project_id' => $project_id,

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CabinetController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\Contracts\View\View
     {
         $data = [
             'tasks' => $this->ForTodayList(),
@@ -20,7 +20,7 @@ class CabinetController extends Controller
      * Список "Задачи на сегодня", в котором выводятся все задачи со статусом "В работе",
      * в которых текущий пользователь имеет статус "Исполнитель".
      */
-    public function ForTodayList()
+    public function ForTodayList(): \Illuminate\Support\Collection
     {
         $user_id = Auth::id();
         return Task::where('executor_id', $user_id)->with(['project:url'])->get();
@@ -29,7 +29,7 @@ class CabinetController extends Controller
     /*
      * Список проектов, в которых участвует текущий пользователь.
      */
-    public function projectsList()
+    public function projectsList(): \Illuminate\Support\Collection
     {
         return ProjectController::index();
     }

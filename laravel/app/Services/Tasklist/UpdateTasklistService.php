@@ -6,7 +6,7 @@ use App\Models\Tasklist;
 
 class UpdateTasklistService
 {
-    public function execute($data, $tasklist_id)
+    public function execute(array $data, string $tasklist_id): bool
     {
         unset ($data['oldName']);
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExcludeParticipantsRequest;
-use App\Models\Notification;
 use App\Models\Project;
 use App\Models\ProjectParticipant;
 use App\Models\UserInfo;
@@ -13,7 +12,6 @@ use App\Services\RemoveUserProjectData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class ProjectParticipantController extends Controller
@@ -57,7 +55,8 @@ class ProjectParticipantController extends Controller
         }
     }
 
-    public function quitProject(Request $request, string $project_url): \Illuminate\Http\JsonResponse {
+    public function quitProject(Request $request, string $project_url): \Illuminate\Http\JsonResponse
+    {
         $user_id = Auth::id();
 
         $response = RemoveUserProjectData::remove($project_url, $user_id);
@@ -75,15 +74,15 @@ class ProjectParticipantController extends Controller
         }
     }
 
-    public function excludeParticipants(ExcludeParticipantsRequest $request, string $project_url): \Illuminate\Http\JsonResponse
-    {
+    public function excludeParticipants(
+        ExcludeParticipantsRequest $request,
+        string $project_url
+    ): \Illuminate\Http\JsonResponse {
         $project_id = GetProjectId::byUrl($project_url);
         Gate::authorize('project.participant.exclude', $project_id);
 
         $validate_data = $request->validated();
-
         $ids = $validate_data['ids'];
-
         $response_data = [];
 
         foreach ($ids as $user_id) {

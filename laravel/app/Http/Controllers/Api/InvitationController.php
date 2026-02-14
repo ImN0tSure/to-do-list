@@ -48,7 +48,7 @@ class InvitationController extends Controller
         ]);
     }
 
-    protected function deleteOriginalInvitationNotification($notifiable_id): void
+    protected function deleteOriginalInvitationNotification(string $notifiable_id): void
     {
         Notification::where([
             'notifiable_id' => $notifiable_id,

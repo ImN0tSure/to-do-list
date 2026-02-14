@@ -7,15 +7,11 @@ use App\Http\Requests\SaveProjectRequest;
 use App\Models\Notification;
 use App\Models\Project;
 use App\Models\ProjectParticipant;
-use App\Services\GenerateProjectUrl;
-use App\Services\GetParticipantStatus;
 use App\Services\GetProjectId;
 use App\Services\Project\CreateProjectService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -36,7 +32,7 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function create(): \Illuminate\Contracts\View\View
     {
         return view('project.create');
     }
@@ -44,8 +40,10 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SaveProjectRequest $request, CreateProjectService $project_service): \Illuminate\Http\RedirectResponse
-    {
+    public function store(
+        SaveProjectRequest $request,
+        CreateProjectService $project_service
+    ): \Illuminate\Http\RedirectResponse {
         $validate_data = $request->validated();
 
         $project_service->execute($validate_data);
@@ -56,19 +54,12 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($project_url): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
-    {
+    public function show($project_url
+    ): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application {
         $project_id = GetProjectId::byUrl($project_url);
-
-//        $project = Project::where('url', $project_url)->first();
         $project = Cache::remember("project:{$project_id}", 600, function () use ($project_id) {
             return Project::where('id', $project_id)->first();
         });
-
-//        $participants = $project
-//            ->participants()
-//            ->select('name', 'surname', 'avatar_img', 'user_infos.user_id')
-//            ->get();
 
         $participants = Cache::remember("project:{$project_id}:participants", 600, function () use ($project_id) {
             return Project::where('id', $project_id)
@@ -101,8 +92,8 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $url): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
-    {
+    public function edit(string $url
+    ): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application {
         abort('404');
     }
 
@@ -126,8 +117,8 @@ class ProjectController extends Controller
         return redirect()->route('index');
     }
 
-    public function quit(string $project_url): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
-    {
+    public function quit(string $project_url
+    ): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application {
         $user_id = Auth::id();
 
         $response = $this->removeProjectConnectedData($project_url, $user_id);
@@ -142,15 +133,15 @@ class ProjectController extends Controller
         }
     }
 
-    public function excludeParticipants(ExcludeParticipantsRequest $request, $project_url) {
-
+    public function excludeParticipants(ExcludeParticipantsRequest $request, $project_url)
+    {
         $validate_data = $request->validated();
 
         $ids = $validate_data['ids'];
 
         $response_data = [];
 
-        foreach($ids as $user_id) {
+        foreach ($ids as $user_id) {
             $response = $this->removeProjectConnectedData($project_url, $user_id);
             if ($response) {
                 $response_data[$user_id] = [
@@ -167,7 +158,8 @@ class ProjectController extends Controller
         return response()->json($response_data);
     }
 
-    public function removeProjectConnectedData ($project_url, $user_id) {
+    public function removeProjectConnectedData($project_url, $user_id)
+    {
         $project = Project::where('url', $project_url)->first();
         $task_id = $project->tasks()
             ->where('executor_id', $user_id)

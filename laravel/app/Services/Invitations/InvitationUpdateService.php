@@ -14,7 +14,7 @@ class InvitationUpdateService
     private string $default_user_status = '2';
     private string $default_user_role = 'executor';
 
-    public function execute($notifiable_id, $is_accepted)
+    public function execute(string $notifiable_id, bool $is_accepted): string
     {
         $response = $this->reject_response_message;
 
@@ -30,7 +30,7 @@ class InvitationUpdateService
         return $response;
     }
 
-    private function accepted($notifiable_id)
+    private function accepted(string $notifiable_id): void
     {
         $project_id = Invitation::where('id', $notifiable_id)->first()->project_id;
         $participant_service = new CreateProjectParticipantService();
