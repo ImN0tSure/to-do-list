@@ -1,17 +1,18 @@
 <?php
 
+use App\Http\Controllers\Api\InvitationController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\ProjectParticipantController;
 use App\Http\Controllers\Api\ProjectTaskController;
 use App\Http\Controllers\Api\RegistrationController;
-use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TasklistController;
 use App\Http\Controllers\Api\UserInfoController;
+use App\Http\Controllers\Api\UserTaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserTaskController;
-use App\Http\Controllers\Api\ProjectParticipantController;
-use App\Http\Controllers\Api\InvitationController;
-use App\Http\Controllers\Api\NotificationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,28 +43,28 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 
-    Route::group(['middleware' => 'project.participant'], function () {
-        Route::get('/project/{project}/participants', [ProjectParticipantController::class, 'index']);
-        Route::get('/project/{project}/participants/{participant}', [ProjectParticipantController::class, 'show']);
-        Route::put('/project/{project}/participants/exclude', [ProjectParticipantController::class, 'excludeParticipants']);
-        Route::get('/project/{project}/quit', [ProjectParticipantController::class, 'quitProject']);
-        Route::get('/project/{project}/tasklists', [TasklistController::class, 'index']);
-        Route::post('/project/{project}/tasklists', [TasklistController::class, 'store']);
-        Route::put('/project/{project}/tasklists/{tasklist}', [TasklistController::class, 'update']);
-        Route::delete('/project/{project}/tasklists/{tasklist}', [TasklistController::class, 'destroy']);
-        Route::get('/project/{project}/tasks', [ProjectTaskController::class, 'index']);
-        Route::get('/project/{project}/tasks/{task}', [ProjectTaskController::class, 'show']);
-        Route::put('/project/{project}/tasks/{task}', [ProjectTaskController::class, 'update']);
-        Route::delete('/project/{project}/tasks/{task}', [ProjectTaskController::class, 'destroy']);
-        Route::post('/project/{project}/tasks', [ProjectTaskController::class, 'store']);
-        Route::post('/project/{project}/invite-participant', [InvitationController::class, 'create']);
-        Route::get('/project/{project}/role', [RoleController::class, 'index']);
-    });
+    Route::get('/project/{project}/participants', [ProjectParticipantController::class, 'index']);
+    Route::get('/project/{project}/participants/{participant}', [ProjectParticipantController::class, 'show']);
+    Route::put(
+        '/project/{project}/participants/exclude',
+        [ProjectParticipantController::class, 'excludeParticipants']
+    );
+    Route::get('/project/{project}/quit', [ProjectParticipantController::class, 'quitProject']);
+    Route::get('/project/{project}/tasklists', [TasklistController::class, 'index']);
+    Route::post('/project/{project}/tasklists', [TasklistController::class, 'store']);
+    Route::put('/project/{project}/tasklists/{tasklist}', [TasklistController::class, 'update']);
+    Route::delete('/project/{project}/tasklists/{tasklist}', [TasklistController::class, 'destroy']);
+    Route::get('/project/{project}/tasks', [ProjectTaskController::class, 'index']);
+    Route::get('/project/{project}/tasks/{task}', [ProjectTaskController::class, 'show']);
+    Route::put('/project/{project}/tasks/{task}', [ProjectTaskController::class, 'update']);
+    Route::delete('/project/{project}/tasks/{task}', [ProjectTaskController::class, 'destroy']);
+    Route::post('/project/{project}/tasks', [ProjectTaskController::class, 'store']);
+    Route::post('/project/{project}/invite-participant', [InvitationController::class, 'create']);
+    Route::get('/project/{project}/role', [RoleController::class, 'index']);
 
     Route::put('/invitation/accept', [InvitationController::class, 'accept']);
     Route::put('/invitation/decline', [InvitationController::class, 'decline']);
     Route::put('/invitation/response', [InvitationController::class, 'update']);
-
 });
 
 Route::post('tmp-save-user', [RegistrationController::class, 'tmpSaveUser']);

@@ -21,6 +21,9 @@ class ProjectTaskController extends Controller
 {
     public function index(Request $request, string $project_url): \Illuminate\Http\JsonResponse
     {
+        $project_id = GetProjectId::byUrl($project_url);
+        Gate::authorize('task.all', $project_id);
+
         $tasks = Project::where('url', $project_url)->first()->tasks()->get();
 
         $data = [];
