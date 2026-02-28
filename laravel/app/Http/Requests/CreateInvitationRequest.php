@@ -49,7 +49,7 @@ class CreateInvitationRequest extends FormRequest
         ];
     }
 
-    public function withValidator($validator)
+    public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
             $email = $this->input('email');
@@ -64,9 +64,9 @@ class CreateInvitationRequest extends FormRequest
 
                 $project_id = GetProjectId::byUrl($project_url);
 
-                if (!checkParticipant::project($this->project_url, Auth::id())) {
+                if (!CheckParticipant::project($this->project_url, Auth::id())) {
                     $validator->errors()->add('project_url', 'Вы не состоите в проекте');
-                } elseif (checkParticipant::project($this->project_url, $invitee_id)) {
+                } elseif (CheckParticipant::project($this->project_url, $invitee_id)) {
                     $validator->errors()->add('project_url', 'Пользователь уже состоит в проекте');
                 } elseif (Invitation::where([
                     'project_id' => $project_id,

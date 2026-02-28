@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Project;
 
+//Устаревший. Только для web.
 class CheckParticipant
 {
     public static function project(string $project_url, int $user_id): bool
@@ -12,5 +13,4 @@ class CheckParticipant
 
         return $project->participantRecords()->where('user_id', $user_id)->exists();
     }
-
 }

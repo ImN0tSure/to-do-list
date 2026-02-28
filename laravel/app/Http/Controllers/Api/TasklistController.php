@@ -17,6 +17,7 @@ class TasklistController extends Controller
     public function index(Request $request, string $project_url): \Illuminate\Http\JsonResponse
     {
         $project_id = GetProjectId::byUrl($project_url);
+        Gate::authorize('tasklist.all', $project_id);
 
         $tasklists = Tasklist::where('project_id', $project_id)->select('id', 'name', 'project_id')->get();
 
